@@ -20,8 +20,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">Interactive Mutation Browser</h1>
-        <p className="mt-3 text-2xl">
+        <h1 className="text-6xl font-bold text-gray-900">
+          Interactive Mutation Browser
+        </h1>
+        <p className="mt-3 text-2xl text-gray-700">
           Get started by entering an amino acid sequence.
         </p>
         <InputForm formInput={formInput} setFormInput={setFormInput} />

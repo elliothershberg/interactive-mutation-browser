@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function InputForm({
   formInput,
   setFormInput,
@@ -21,7 +23,7 @@ export default function InputForm({
           type="button"
           className=" rounded-md border border-transparent bg-gray-600 px-6 py-3 mt-4 text-base font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
-          Submit sequence
+          <Link href="/browser">Submit sequence</Link>
         </button>
       </div>
     </div>
