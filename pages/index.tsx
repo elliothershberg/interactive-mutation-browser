@@ -1,10 +1,15 @@
 import type { NextPage } from "next";
+import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 
 import InputForm from "../components/InputForm";
 
 const Home: NextPage = () => {
+  const [inputSequence, setInputSequence] = useState("");
+
+  console.log(inputSequence);
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -17,7 +22,10 @@ const Home: NextPage = () => {
         <p className="mt-3 text-2xl">
           Get started by entering an amino acid sequence.
         </p>
-        <InputForm />
+        <InputForm
+          inputSequence={inputSequence}
+          setInputSequence={setInputSequence}
+        />
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
