@@ -1,9 +1,9 @@
 export default function InputForm({
-  inputSequence,
-  setInputSequence,
+  formInput,
+  setFormInput,
 }: {
-  inputSequence: string;
-  setInputSequence: (inputSequence: string) => void;
+  formInput: string;
+  setFormInput: (inputSequence: string) => void;
 }) {
   return (
     <div>
@@ -14,9 +14,15 @@ export default function InputForm({
           name="comment"
           id="comment"
           className="block w-full rounded-md border-gray-300 border-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-          value={inputSequence}
-          onChange={(e) => setInputSequence(e.target.value)}
+          value={formInput}
+          onChange={(e) => setFormInput(e.target.value)}
         />
+        <button
+          type="button"
+          className=" rounded-md border border-transparent bg-gray-600 px-6 py-3 mt-4 text-base font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Submit sequence
+        </button>
       </div>
     </div>
   );
