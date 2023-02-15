@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
 import { inputSequence } from "../lib/sequenceState";
 
 const Browser: NextPage = () => {
-  const [sequence] = useAtom(inputSequence);
+  const sequence = useAtomValue(inputSequence);
 
   return (
     <div>
