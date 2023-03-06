@@ -15,7 +15,13 @@ function AminoAcidSequence({ sequence }: AminoAcidSequenceProps) {
   return (
     <div className="flex flex-wrap w-2/3">
       {aminoAcidArray.map((aminoAcid) => {
-        return <AminoAcidPopover aminoAcid={aminoAcid} />;
+        return (
+          <AminoAcidPopover
+            aminoAcid={aminoAcid}
+            aminoAcidArray={aminoAcidArray}
+            setAminoAcidArray={setAminoAcidArray}
+          />
+        );
       })}
     </div>
   );
