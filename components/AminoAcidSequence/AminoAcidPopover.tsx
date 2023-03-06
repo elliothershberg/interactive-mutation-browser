@@ -27,26 +27,39 @@ function AminoAcidPopover({
   });
 
   const handleAminoAcidChange = (aminoAcidClicked: string) => {
+    const newArray = aminoAcidArray;
     if (aminoAcidClicked !== aminoAcid.initialAminoAcid) {
-      console.log(aminoAcidClicked);
-      const newArray = aminoAcidArray;
       newArray[aminoAcid.position - 1].mutatedAminoAcid = aminoAcidClicked;
-      setAminoAcidArray(newArray);
+    } else {
+      newArray[aminoAcid.position - 1].mutatedAminoAcid = "";
     }
+    setAminoAcidArray(newArray);
   };
 
   return (
     <Popover>
       <Popover.Button ref={setReferenceElement} className="focus:outline-none">
-        <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-6 rounded hover:bg-gray-300">
-          <div>
-            <strong className="text-xl text-gray-900 font-bold">
-              {aminoAcid.initialAminoAcid}
-            </strong>
-            <br />
-            <p className="text-sm text-gray-600">{aminoAcid.position}</p>
+        {aminoAcid.mutatedAminoAcid === "" ? (
+          <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-8 rounded hover:bg-gray-300">
+            <div>
+              <strong className="text-xl text-gray-900 font-bold">
+                {aminoAcid.initialAminoAcid}
+              </strong>
+              <br />
+              <p className="text-sm text-gray-600">{aminoAcid.position}</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="border border-indigo-600 w-6 h-6 flex items-center justify-center m-2 p-8 rounded bg-gray-300">
+            <div>
+              <strong className="text-xl text-indigo-600 font-bold">
+                {aminoAcid.initialAminoAcid}→{aminoAcid.mutatedAminoAcid}
+              </strong>
+              <br />
+              <p className="text-sm text-gray-600">{aminoAcid.position}</p>
+            </div>
+          </div>
+        )}
       </Popover.Button>
 
       <Popover.Panel
@@ -60,11 +73,11 @@ function AminoAcidPopover({
         <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-900 flex flex-wrap w-96 mt-2">
           {AMINO_ACIDS.map((aminoAcid) => {
             return (
-              <button onClick={(e) => handleAminoAcidChange(aminoAcid)}>
+              <Popover.Button onClick={(e) => handleAminoAcidChange(aminoAcid)}>
                 <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-6 rounded hover:bg-gray-300">
                   {aminoAcid}
                 </div>
-              </button>
+              </Popover.Button>
             );
           })}
         </div>
