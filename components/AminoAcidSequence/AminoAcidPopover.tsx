@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { usePopper } from "react-popper";
 
+import { AMINO_ACIDS } from "../../lib/constants";
+
 function AminoAcidPopover({
   aminoAcid,
 }: {
@@ -15,7 +17,10 @@ function AminoAcidPopover({
     null
   );
   let [popperElement, setPopperElement] = useState<HTMLElement | null>();
-  let { styles, attributes } = usePopper(referenceElement, popperElement);
+  const [arrowElement, setArrowElement] = useState<HTMLElement | null>();
+  let { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [{ name: "arrow", options: { element: arrowElement } }],
+  });
 
   return (
     <Popover>
@@ -36,7 +41,20 @@ function AminoAcidPopover({
         style={styles.popper}
         {...attributes.popper}
       >
-        fooopy dooopy
+        <div ref={setArrowElement} style={styles.arrow} className="-mt-3">
+          ↑
+        </div>
+        <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-900 flex flex-wrap w-96 mt-2">
+          {AMINO_ACIDS.map((aminoAcid) => {
+            return (
+              <button>
+                <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-6 rounded hover:bg-gray-300">
+                  {aminoAcid}
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </Popover.Panel>
     </Popover>
   );
