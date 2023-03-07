@@ -7,6 +7,7 @@ import { useAtomValue } from "jotai";
 import { inputSequence } from "../lib/sequenceState";
 
 import AminoAcidSequence from "../components/AminoAcidSequence";
+import StructureViewer from "../components/StructureViewer";
 
 const Browser: NextPage = () => {
   const sequence = useAtomValue(inputSequence);
@@ -26,6 +27,7 @@ const Browser: NextPage = () => {
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
         <AminoAcidSequence sequence="GPSALIVRKDEHWYCMN" />
+        <StructureViewer sequence="GPSALIVRKDEHWYCMN" />
       </main>
     </div>
   );
