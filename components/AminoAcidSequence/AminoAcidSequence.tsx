@@ -10,8 +10,6 @@ type AminoAcidSequenceProps = {
 function AminoAcidSequence({ sequence }: AminoAcidSequenceProps) {
   const [aminoAcidArray, setAminoAcidArray] = useState(parseInput(sequence));
 
-  console.log(aminoAcidArray);
-
   return (
     <div className="flex flex-wrap w-2/3">
       {aminoAcidArray.map((aminoAcid) => {

@@ -10,8 +10,6 @@ import InputForm from "../components/InputForm";
 const Home: NextPage = () => {
   const [formInput, setFormInput] = useAtom(inputSequence);
 
-  console.log(formInput);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
