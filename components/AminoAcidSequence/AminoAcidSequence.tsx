@@ -20,6 +20,7 @@ function AminoAcidSequence({ sequence }: AminoAcidSequenceProps) {
             aminoAcid={aminoAcid}
             aminoAcidArray={aminoAcidArray}
             setAminoAcidArray={setAminoAcidArray}
+            key={aminoAcid.position}
           />
         );
       })}

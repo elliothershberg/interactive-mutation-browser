@@ -36,6 +36,8 @@ function AminoAcidPopover({
     setAminoAcidArray(newArray);
   };
 
+  const { position } = aminoAcid;
+
   return (
     <Popover>
       <Popover.Button ref={setReferenceElement} className="focus:outline-none">
@@ -71,9 +73,13 @@ function AminoAcidPopover({
           ↑
         </div>
         <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-900 flex flex-wrap w-96 mt-2">
-          {AMINO_ACIDS.map((aminoAcid) => {
+          {AMINO_ACIDS.map((aminoAcid, index) => {
+            const key = position + aminoAcid + index;
             return (
-              <Popover.Button onClick={(e) => handleAminoAcidChange(aminoAcid)}>
+              <Popover.Button
+                onClick={(e) => handleAminoAcidChange(aminoAcid)}
+                key={key}
+              >
                 <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-6 rounded hover:bg-gray-300">
                   {aminoAcid}
                 </div>
