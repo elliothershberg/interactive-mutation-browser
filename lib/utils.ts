@@ -10,3 +10,15 @@ export function parseInput(input: string) {
 
   return sequenceArray;
 }
+
+export function parseESMResponse(response: string) {
+  const responseLines = response.split("\n");
+  const coordinates = responseLines.map((line) => {
+    if (line[0] === "A") {
+      return line;
+    }
+  });
+
+  console.log(coordinates.join("\n").trim());
+  return coordinates.join("\n").trim();
+}
