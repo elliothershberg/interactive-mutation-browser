@@ -36,10 +36,10 @@ function StructureViewer({ sequence }: { sequence: string }) {
   // then initialize the viewer
   useEffect(() => {
     const { $3Dmol } = globalThis as any;
-    if (viewerLoaded && $3Dmol) {
+    if ($3Dmol) {
       $3Dmol.autoload();
     }
-  }, [structure]);
+  }, [structure, viewerLoaded]);
 
   return (
     <>
