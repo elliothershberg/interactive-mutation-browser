@@ -49,19 +49,19 @@ function StructureViewer({ sequence }: { sequence: string }) {
           setviewerLoaded(true);
         }}
       ></Script>
-      <div className="m-16">
+      <div>
         {structure && (
           <div className="w-full h-full">
             <textarea
               className="hidden"
-              id="structure-data"
+              id={sequence}
               value={structure.message}
               readOnly
             ></textarea>
             <div
               style={{ height: 400, width: 400, position: "relative" }}
               className="viewer_3Dmoljs"
-              data-element="structure-data"
+              data-element={sequence}
               data-type="pdb"
               data-backgroundcolor="0xffffff"
               data-style="cartoon:color=spectrum"
