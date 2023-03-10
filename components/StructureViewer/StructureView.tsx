@@ -65,6 +65,7 @@ function StructureViewer({ sequence }: { sequence: string }) {
               data-type="pdb"
               data-backgroundcolor="0xffffff"
               data-style="cartoon:color=spectrum"
+              data-surface="opacity:.7;color:white"
               // data-style="stick"
               data-ui="true"
             ></div>
