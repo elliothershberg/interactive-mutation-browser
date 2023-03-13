@@ -6,4 +6,4 @@ interface AminoAcid {
   mutatedAminoAcid: string;
 }
 
-export const sequenceArray = atom<AminoAcid[] | []>([]);
+export const sequenceArrayAtom = atom<AminoAcid[] | []>([]);
