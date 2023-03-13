@@ -1,15 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useAtom } from "jotai";
-
-import { inputSequence } from "../lib/sequenceState";
 
 import InputForm from "../components/InputForm";
 
 const Home: NextPage = () => {
-  const [formInput, setFormInput] = useAtom(inputSequence);
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -24,7 +19,7 @@ const Home: NextPage = () => {
         <p className="mt-3 text-2xl text-gray-700">
           Get started by entering an amino acid sequence.
         </p>
-        <InputForm formInput={formInput} setFormInput={setFormInput} />
+        <InputForm />
       </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">

@@ -1,14 +1,26 @@
-import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
-export default function InputForm({
-  formInput,
-  setFormInput,
-}: {
-  formInput: string;
-  setFormInput: (inputSequence: string) => void;
-}) {
+import InputAlertModal from "./inputAlertModal";
+import { AMINO_ACIDS } from "../../lib/constants";
+
+export default function InputForm() {
+  const [formInput, setFormInput] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const handleSubmit = () => {
+    const letters = formInput.toUpperCase().split("");
+    letters.map((letter) => {
+      if (!AMINO_ACIDS.includes(letter)) {
+        setShowModal(true);
+        return;
+      }
+    });
+  };
+
   return (
     <div>
+      <InputAlertModal open={showModal} setOpen={setShowModal} />
       <div className="grid-cols-1 mt-6">
         <textarea
           rows={8}
@@ -22,8 +34,9 @@ export default function InputForm({
         <button
           type="button"
           className=" rounded-md border border-transparent bg-gray-600 px-6 py-3 mt-4 text-base font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={handleSubmit}
         >
-          <Link href="/browser">Submit sequence</Link>
+          Submit sequence
         </button>
       </div>
     </div>
