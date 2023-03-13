@@ -27,7 +27,17 @@ const Browser: NextPage = () => {
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
         <AminoAcidSequence sequence="GPSALIVRKDEHWYCMN" />
-        <StructureViewer sequence="GPSALIVRKDEHWYCMN" />
+        <div className="flex flex-row">
+          <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
+            Wild-type structure:
+            <StructureViewer sequence="GPSALIVRKDEHWYCMN" />
+          </div>
+
+          <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
+            Mutated structure:
+            <StructureViewer sequence="HETWTKCTDGASVLYNQPMRFIXBZ" />
+          </div>
+        </div>
       </main>
     </div>
   );
