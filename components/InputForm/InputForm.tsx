@@ -18,7 +18,6 @@ export default function InputForm() {
     const letters = formInput.toUpperCase().split("");
 
     if (letters.length === 0) {
-      console.log("Input form empty.");
       setModalText("Input form empty.");
       setShowModal(true);
       return;
@@ -26,7 +25,6 @@ export default function InputForm() {
 
     for (const letter of letters) {
       if (!AMINO_ACIDS.includes(letter)) {
-        console.log("Detected invalid amino acid in input sequence.");
         setModalText("Detected invalid amino acid in input sequence.");
         setShowModal(true);
         return;
