@@ -2,16 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
-import { useAtomValue } from "jotai";
-
-import { inputSequence } from "../lib/sequenceState";
-
 import AminoAcidSequence from "../components/AminoAcidSequence";
 import StructureViewer from "../components/StructureViewer";
 
 const Browser: NextPage = () => {
-  const sequence = useAtomValue(inputSequence);
-
   return (
     <div>
       <Head>
