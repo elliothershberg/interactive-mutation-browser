@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSetAtom } from "jotai";
 
-import InputAlertModal from "./inputAlertModal";
+import InputAlertModal from "./InputAlertModal";
 import { AMINO_ACIDS } from "../../lib/constants";
 import { parseInput } from "../../lib/utils";
 import { sequenceArrayAtom } from "../../lib/sequenceState";
