@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { usePopper } from "react-popper";
+import { useAtom, useSetAtom } from "jotai";
 
 import { AMINO_ACIDS } from "../../lib/constants";
+import {
+  sequenceArrayAtom,
+  wildTypeSequenceAtom,
+  mutatedSequenceAtom,
+} from "../../lib/sequenceState";
 
 function AminoAcidPopover({
   aminoAcid,
-  aminoAcidArray,
-  setAminoAcidArray,
 }: {
   aminoAcid: {
     position: number;
     initialAminoAcid: string;
     mutatedAminoAcid: string;
   };
-  aminoAcidArray: any;
-  setAminoAcidArray: (aminoAcidArray: any) => void;
 }) {
   let [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
@@ -26,14 +28,39 @@ function AminoAcidPopover({
     modifiers: [{ name: "arrow", options: { element: arrowElement } }],
   });
 
+  const [sequenceArray, setSequenceArray] = useAtom(sequenceArrayAtom);
+  const setWildTypeSequence = useSetAtom(wildTypeSequenceAtom);
+  const setMutatedSequence = useSetAtom(mutatedSequenceAtom);
+
   const handleAminoAcidChange = (aminoAcidClicked: string) => {
-    const newArray = aminoAcidArray;
+    const newArray = sequenceArray;
     if (aminoAcidClicked !== aminoAcid.initialAminoAcid) {
       newArray[aminoAcid.position - 1].mutatedAminoAcid = aminoAcidClicked;
     } else {
       newArray[aminoAcid.position - 1].mutatedAminoAcid = "";
     }
-    setAminoAcidArray(newArray);
+
+    setSequenceArray(newArray);
+
+    setWildTypeSequence(
+      sequenceArray
+        .map((aminoAcid) => {
+          return aminoAcid.initialAminoAcid;
+        })
+        .join("")
+    );
+
+    setMutatedSequence(
+      sequenceArray
+        .map((aminoAcid) => {
+          if (aminoAcid.mutatedAminoAcid === "") {
+            return aminoAcid.initialAminoAcid;
+          } else {
+            return aminoAcid.mutatedAminoAcid;
+          }
+        })
+        .join("")
+    );
   };
 
   const { position } = aminoAcid;
@@ -77,7 +104,7 @@ function AminoAcidPopover({
             const key = position + aminoAcid + index;
             return (
               <Popover.Button
-                onClick={(e) => handleAminoAcidChange(aminoAcid)}
+                onClick={(_e) => handleAminoAcidChange(aminoAcid)}
                 key={key}
               >
                 <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-6 rounded hover:bg-gray-300">

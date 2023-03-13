@@ -1,22 +1,17 @@
 import React from "react";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
 import { sequenceArrayAtom } from "../../lib/sequenceState";
 import AminoAcidPopover from "./AminoAcidPopover";
 
 function AminoAcidSequence() {
-  const [sequenceArray, setSequenceArray] = useAtom(sequenceArrayAtom);
+  const sequenceArray = useAtomValue(sequenceArrayAtom);
 
   return (
     <div className="flex flex-wrap w-2/3">
       {sequenceArray.map((aminoAcid) => {
         return (
-          <AminoAcidPopover
-            aminoAcid={aminoAcid}
-            aminoAcidArray={sequenceArray}
-            setAminoAcidArray={setSequenceArray}
-            key={aminoAcid.position}
-          />
+          <AminoAcidPopover aminoAcid={aminoAcid} key={aminoAcid.position} />
         );
       })}
     </div>
