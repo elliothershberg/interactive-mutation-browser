@@ -1,26 +1,49 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useSetAtom } from "jotai";
 
 import InputAlertModal from "./inputAlertModal";
 import { AMINO_ACIDS } from "../../lib/constants";
+import { parseInput } from "../../lib/utils";
+import { sequenceArray } from "../../lib/sequenceState";
 
 export default function InputForm() {
   const [formInput, setFormInput] = useState("");
+  const [modalText, setModalText] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const setSequenceArray = useSetAtom(sequenceArray);
+  const router = useRouter();
 
   const handleSubmit = () => {
     const letters = formInput.toUpperCase().split("");
-    letters.map((letter) => {
+
+    if (letters.length === 0) {
+      console.log("Input form empty.");
+      setModalText("Input form empty.");
+      setShowModal(true);
+      return;
+    }
+
+    for (const letter of letters) {
       if (!AMINO_ACIDS.includes(letter)) {
+        console.log("Detected invalid amino acid in input sequence.");
+        setModalText("Detected invalid amino acid in input sequence.");
         setShowModal(true);
         return;
       }
-    });
+    }
+
+    setSequenceArray(parseInput(formInput));
+    router.push("/browser");
   };
 
   return (
     <div>
-      <InputAlertModal open={showModal} setOpen={setShowModal} />
+      <InputAlertModal
+        open={showModal}
+        setOpen={setShowModal}
+        modalText={modalText}
+      />
       <div className="grid-cols-1 mt-6">
         <textarea
           rows={8}

@@ -8,10 +8,14 @@ import {
 export default function InputAlertModal({
   open,
   setOpen,
+  modalText,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
+  modalText: string;
 }) {
+  console.log("foopy!!");
+  console.log("modalText", modalText);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -64,9 +68,7 @@ export default function InputAlertModal({
                       Input error
                     </Dialog.Title>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Detected invalid amino acid in input sequence.
-                      </p>
+                      <p className="text-sm text-gray-500">{modalText}</p>
                     </div>
                   </div>
                 </div>
