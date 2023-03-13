@@ -1,3 +1,9 @@
 import { atom } from "jotai";
 
-export const inputSequence = atom("");
+interface AminoAcid {
+  position: number;
+  initialAminoAcid: string;
+  mutatedAminoAcid: string;
+}
+
+export const sequenceArray = atom<AminoAcid[] | []>([]);
