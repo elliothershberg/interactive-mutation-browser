@@ -6,12 +6,18 @@ import { useAtomValue } from "jotai";
 
 import AminoAcidSequence from "../components/AminoAcidSequence";
 import StructureViewer from "../components/StructureViewer";
-import { sequenceArrayAtom } from "../lib/sequenceState";
+import {
+  sequenceArrayAtom,
+  wildTypeSequenceAtom,
+  mutatedSequenceAtom,
+} from "../lib/sequenceState";
 import { useEffect } from "react";
 
 const Browser: NextPage = () => {
   const router = useRouter();
   const sequenceArray = useAtomValue(sequenceArrayAtom);
+  const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
+  const mutatedSequence = useAtomValue(mutatedSequenceAtom);
 
   useEffect(() => {
     if (sequenceArray.length === 0) {
@@ -33,16 +39,16 @@ const Browser: NextPage = () => {
             </Link>
           </div>
           <div className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
-            <AminoAcidSequence sequence="GPSALIVRKDEHWYCMN" />
+            <AminoAcidSequence />
             <div className="flex flex-row">
               <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
                 Wild-type structure:
-                <StructureViewer sequence="GPSALIVRKDEHWYCMN" />
+                <StructureViewer sequence={wildTypeSequence} />
               </div>
 
               <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
                 Mutated structure:
-                <StructureViewer sequence="HETWTKCTDGASVLYNQPMRFIXBZ" />
+                <StructureViewer sequence={mutatedSequence} />
               </div>
             </div>
           </div>
