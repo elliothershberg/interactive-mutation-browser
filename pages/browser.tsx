@@ -42,13 +42,13 @@ const Browser: NextPage = () => {
             <AminoAcidSequence />
             <div className="flex flex-row">
               <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
-                Wild-type structure: {wildTypeSequence}
-                {/* <StructureViewer sequence={wildTypeSequence} /> */}
+                Wild-type structure:
+                <StructureViewer sequence={wildTypeSequence} />
               </div>
 
               <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
-                Mutated structure: {mutatedSequence}
-                {/* <StructureViewer sequence={mutatedSequence} /> */}
+                Mutated structure:
+                <StructureViewer sequence={mutatedSequence} />
               </div>
             </div>
           </div>
