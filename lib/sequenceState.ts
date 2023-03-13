@@ -7,6 +7,7 @@ interface AminoAcid {
 }
 
 export const sequenceArrayAtom = atom<AminoAcid[] | []>([]);
+sequenceArrayAtom.debugLabel = "sequenceArrayAtom";
 
 export const wildTypeSequenceAtom = atom<string>((get) => {
   const sequenceArray = get(sequenceArrayAtom);
@@ -15,6 +16,7 @@ export const wildTypeSequenceAtom = atom<string>((get) => {
   });
   return wildTypeArray.join("");
 });
+wildTypeSequenceAtom.debugLabel = "wildTypeSequenceAtom";
 
 export const mutatedSequenceAtom = atom<string>((get) => {
   const sequenceArray = get(sequenceArrayAtom);
@@ -23,3 +25,4 @@ export const mutatedSequenceAtom = atom<string>((get) => {
   });
   return mutatedArray.join("");
 });
+mutatedSequenceAtom.debugLabel = "mutatedSequenceAtom";
