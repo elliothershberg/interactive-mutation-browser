@@ -14,8 +14,6 @@ export default function InputAlertModal({
   setOpen: (open: boolean) => void;
   modalText: string;
 }) {
-  console.log("foopy!!");
-  console.log("modalText", modalText);
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
