@@ -17,5 +17,7 @@ export default async function handler(
 
   const data = await response.text();
 
+  console.log(data);
+
   res.json({ message: data });
 }
