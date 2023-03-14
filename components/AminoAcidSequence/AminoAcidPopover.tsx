@@ -1,21 +1,19 @@
 import { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { usePopper } from "react-popper";
+import { useAtom } from "jotai";
 
+import { sequenceArrayAtom } from "../../lib/sequenceState";
 import { AMINO_ACIDS } from "../../lib/constants";
 
 function AminoAcidPopover({
   aminoAcid,
-  aminoAcidArray,
-  setAminoAcidArray,
 }: {
   aminoAcid: {
     position: number;
     initialAminoAcid: string;
     mutatedAminoAcid: string;
   };
-  aminoAcidArray: any;
-  setAminoAcidArray: (aminoAcidArray: any) => void;
 }) {
   let [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
@@ -25,6 +23,8 @@ function AminoAcidPopover({
   let { styles, attributes } = usePopper(referenceElement, popperElement, {
     modifiers: [{ name: "arrow", options: { element: arrowElement } }],
   });
+
+  const [aminoAcidArray, setAminoAcidArray] = useAtom(sequenceArrayAtom);
 
   const handleAminoAcidChange = (aminoAcidClicked: string) => {
     const newArray = aminoAcidArray;
