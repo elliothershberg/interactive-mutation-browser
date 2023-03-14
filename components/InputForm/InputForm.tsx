@@ -4,7 +4,7 @@ import { useSetAtom } from "jotai";
 
 import InputAlertModal from "./InputAlertModal";
 import { AMINO_ACIDS } from "../../lib/constants";
-import { parseInput } from "../../lib/utils";
+
 import {
   wildTypeSequenceAtom,
   mutatedSequenceAtom,
