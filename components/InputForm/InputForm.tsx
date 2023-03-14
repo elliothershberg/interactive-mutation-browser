@@ -5,13 +5,17 @@ import { useSetAtom } from "jotai";
 import InputAlertModal from "./InputAlertModal";
 import { AMINO_ACIDS } from "../../lib/constants";
 import { parseInput } from "../../lib/utils";
-import { sequenceArrayAtom } from "../../lib/sequenceState";
+import {
+  wildTypeSequenceAtom,
+  mutatedSequenceAtom,
+} from "../../lib/sequenceState";
 
 export default function InputForm() {
   const [formInput, setFormInput] = useState("");
   const [modalText, setModalText] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const setSequenceArray = useSetAtom(sequenceArrayAtom);
+  const setWildTypeSequence = useSetAtom(wildTypeSequenceAtom);
+  const setMutatedSequence = useSetAtom(mutatedSequenceAtom);
   const router = useRouter();
 
   const handleSubmit = () => {
@@ -31,7 +35,9 @@ export default function InputForm() {
       }
     }
 
-    setSequenceArray(parseInput(formInput));
+    setWildTypeSequence(formInput);
+    setMutatedSequence(formInput);
+
     router.push("/browser");
   };
 

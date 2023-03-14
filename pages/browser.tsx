@@ -7,7 +7,6 @@ import { useAtomValue } from "jotai";
 import AminoAcidSequence from "../components/AminoAcidSequence";
 import StructureViewer from "../components/StructureViewer";
 import {
-  sequenceArrayAtom,
   wildTypeSequenceAtom,
   mutatedSequenceAtom,
 } from "../lib/sequenceState";
@@ -15,12 +14,11 @@ import { useEffect } from "react";
 
 const Browser: NextPage = () => {
   const router = useRouter();
-  const sequenceArray = useAtomValue(sequenceArrayAtom);
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const mutatedSequence = useAtomValue(mutatedSequenceAtom);
 
   useEffect(() => {
-    if (sequenceArray.length === 0) {
+    if (wildTypeSequence.length === 0) {
       router.push("/");
     }
   }, []);
@@ -31,7 +29,7 @@ const Browser: NextPage = () => {
         <title>Browser</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {sequenceArray.length !== 0 && (
+      {wildTypeSequence.length !== 0 && (
         <main>
           <div className="mt-4 ml-4">
             <Link href="/" className="text-xl text-gray-700">

@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { usePopper } from "react-popper";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 
-import { sequenceArrayAtom } from "../../lib/sequenceState";
+import {
+  wildTypeSequenceAtom,
+  mutatedSequenceAtom,
+} from "../../lib/sequenceState";
 import { AMINO_ACIDS } from "../../lib/constants";
 
 function AminoAcidPopover({
   aminoAcid,
+  position,
 }: {
-  aminoAcid: {
-    position: number;
-    initialAminoAcid: string;
-    mutatedAminoAcid: string;
-  };
+  aminoAcid: string;
+  position: number;
 }) {
   let [referenceElement, setReferenceElement] = useState<HTMLElement | null>(
     null
@@ -24,41 +25,38 @@ function AminoAcidPopover({
     modifiers: [{ name: "arrow", options: { element: arrowElement } }],
   });
 
-  const [aminoAcidArray, setAminoAcidArray] = useAtom(sequenceArrayAtom);
+  const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
+  const wildTypeArray = wildTypeSequence.split("");
+
+  const [mutatedSequence, setMutatedSequence] = useAtom(mutatedSequenceAtom);
+  const mutatedArray = mutatedSequence.split("");
 
   const handleAminoAcidChange = (aminoAcidClicked: string) => {
-    const newArray = aminoAcidArray;
-    if (aminoAcidClicked !== aminoAcid.initialAminoAcid) {
-      newArray[aminoAcid.position - 1].mutatedAminoAcid = aminoAcidClicked;
-    } else {
-      newArray[aminoAcid.position - 1].mutatedAminoAcid = "";
-    }
-    setAminoAcidArray(newArray);
+    mutatedArray[position - 1] = aminoAcidClicked;
+    setMutatedSequence(mutatedArray.join(""));
   };
-
-  const { position } = aminoAcid;
 
   return (
     <Popover>
       <Popover.Button ref={setReferenceElement} className="focus:outline-none">
-        {aminoAcid.mutatedAminoAcid === "" ? (
+        {wildTypeArray[position - 1] === mutatedArray[position - 1] ? (
           <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-8 rounded hover:bg-gray-300">
             <div>
               <strong className="text-xl text-gray-900 font-bold">
-                {aminoAcid.initialAminoAcid}
+                {aminoAcid}
               </strong>
               <br />
-              <p className="text-sm text-gray-600">{aminoAcid.position}</p>
+              <p className="text-sm text-gray-600">{position}</p>
             </div>
           </div>
         ) : (
           <div className="border border-indigo-600 w-6 h-6 flex items-center justify-center m-2 p-8 rounded bg-gray-300">
             <div>
               <strong className="text-xl text-indigo-600 font-bold">
-                {aminoAcid.initialAminoAcid}→{aminoAcid.mutatedAminoAcid}
+                {wildTypeArray[position - 1]}→{mutatedArray[position - 1]}
               </strong>
               <br />
-              <p className="text-sm text-gray-600">{aminoAcid.position}</p>
+              <p className="text-sm text-gray-600">{position}</p>
             </div>
           </div>
         )}
