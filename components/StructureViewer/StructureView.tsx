@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 function StructureViewer({ sequence }: { sequence: string }) {
   const [structure, setStructure] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   // state for keeping track of the 3Dmol.js script loading
   const [viewerLoaded, setviewerLoaded] = useState(false);
 
@@ -25,21 +25,19 @@ function StructureViewer({ sequence }: { sequence: string }) {
   };
 
   useEffect(() => {
-    setLoading(true);
     fetchStructure().then((data) => {
       setStructure(data);
       setLoading(false);
+      const { $3Dmol } = globalThis as any;
+      if ($3Dmol) {
+        $3Dmol.autoload();
+      }
     });
-  }, [sequence]);
+  }, [sequence, viewerLoaded]);
 
   // need to wait for the structure to be fetched,
   // then initialize the viewer
-  useEffect(() => {
-    const { $3Dmol } = globalThis as any;
-    if ($3Dmol) {
-      $3Dmol.autoload();
-    }
-  }, [structure, viewerLoaded]);
+  // useEffect(() => {}, [structure, viewerLoaded]);
 
   return (
     <>
