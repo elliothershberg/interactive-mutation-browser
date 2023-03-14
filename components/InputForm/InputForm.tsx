@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useSetAtom } from "jotai";
 
 import InputAlertModal from "./InputAlertModal";
-import { AMINO_ACIDS } from "../../lib/constants";
+import { AMINO_ACIDS, CAS9 } from "../../lib/constants";
 
 import {
   wildTypeSequenceAtom,
@@ -43,6 +43,20 @@ export default function InputForm() {
 
   return (
     <div>
+      <h1 className="text-6xl font-bold text-gray-900">
+        Interactive Mutation Browser
+      </h1>
+      <p className="mt-3 text-2xl text-gray-700">
+        Get started by entering an amino acid sequence. Or, try an{" "}
+        <button
+          className="text-indigo-500"
+          onClick={() => {
+            setFormInput(CAS9);
+          }}
+        >
+          example.
+        </button>
+      </p>
       <InputAlertModal
         open={showModal}
         setOpen={setShowModal}
