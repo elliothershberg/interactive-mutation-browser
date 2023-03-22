@@ -7,7 +7,7 @@ import { AxisBottom } from "@visx/axis";
 
 import { wildTypeSequenceAtom } from "../../lib/sequenceState";
 
-const defaultMargin = { top: 20, right: 20, bottom: 35, left: 20 };
+const defaultMargin = { top: 20, right: 100, bottom: 35, left: 20 };
 
 function AminoAcidTrackViewer({
   parentHeight,

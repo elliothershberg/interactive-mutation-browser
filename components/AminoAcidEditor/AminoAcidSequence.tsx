@@ -8,7 +8,7 @@ function AminoAcidSequence() {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
 
   return (
-    <div className="flex flex-wrap w-full max-h-80 overflow-scroll bg-gray-50">
+    <div className="flex flex-wrap w-full max-h-80 overflow-scroll">
       {wildTypeSequence.split("").map((aminoAcid: any, index) => {
         return (
           <AminoAcidPopover
