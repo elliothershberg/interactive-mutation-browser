@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAtomValue } from "jotai";
 
-import AminoAcidSequence from "../components/AminoAcidSequence";
+import AminoAcidEditor from "../components/AminoAcidEditor";
 import StructureViewer from "../components/StructureViewer";
 import {
   wildTypeSequenceAtom,
@@ -37,8 +37,8 @@ const Browser: NextPage = () => {
             </Link>
           </div>
           <div className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
-            <AminoAcidSequence />
-            <div className="flex flex-row">
+            <AminoAcidEditor />
+            {/* <div className="flex flex-row">
               <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
                 Wild-type structure:
                 <StructureViewer sequence={wildTypeSequence} />
@@ -48,7 +48,7 @@ const Browser: NextPage = () => {
                 Mutated structure:
                 <StructureViewer sequence={mutatedSequence} />
               </div>
-            </div>
+            </div> */}
           </div>
         </main>
       )}
