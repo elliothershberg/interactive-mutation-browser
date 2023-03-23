@@ -38,7 +38,7 @@ function MutationCircle({
         cx={cx}
         cy={cy}
         r={4}
-        fill={"black"}
+        fill={"#111827"}
         onMouseOver={handleMouseOver}
         onMouseOut={hideTooltip}
       />

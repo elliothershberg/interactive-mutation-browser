@@ -103,6 +103,13 @@ function AminoAcidTrackViewer({
             brushDirection="horizontal"
             initialBrushPosition={initialBrushPosition}
             onChange={onBrushChange}
+            selectedBoxStyle={{
+              fill: "#9ca3af",
+              fillOpacity: 0.1,
+              stroke: "#4b5563",
+              strokeOpacity: 0.8,
+              strokeWidth: 1,
+            }}
             useWindowMoveEvents
           />
           <AxisBottom top={yMax} scale={indexScale} />
