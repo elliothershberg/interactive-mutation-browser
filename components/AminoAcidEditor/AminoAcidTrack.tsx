@@ -5,7 +5,13 @@ import { scaleLinear } from "@visx/scale";
 import { Group } from "@visx/group";
 import { AxisBottom } from "@visx/axis";
 
-import { wildTypeSequenceAtom } from "../../lib/sequenceState";
+import MutationCircle from "./MutationCircle";
+
+import {
+  wildTypeSequenceAtom,
+  mutatedSequenceAtom,
+  computeMutationArray,
+} from "../../lib/sequenceState";
 
 const defaultMargin = { top: 20, right: 100, bottom: 35, left: 20 };
 
@@ -19,6 +25,8 @@ function AminoAcidTrackViewer({
   margin?: typeof defaultMargin;
 }) {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
+  const mutatedSequence = useAtomValue(mutatedSequenceAtom);
+  const mutationArray = computeMutationArray(wildTypeSequence, mutatedSequence);
   const seqLength = wildTypeSequence.length;
 
   // bounds
@@ -33,12 +41,23 @@ function AminoAcidTrackViewer({
 
   indexScale.range([0, xMax]);
 
-  console.log({ parentHeight, parentWidth, xMax, yMax, seqLength });
-
   return (
     <div>
       <svg height={parentHeight} width={parentWidth}>
         <Group left={margin.left} top={margin.top}>
+          {mutationArray.map((mutation, i) => {
+            if (mutation.mutatedAA === "") {
+              return null;
+            }
+            return (
+              <MutationCircle
+                key={i}
+                cx={indexScale(i)}
+                cy={yMax / 2}
+                mutation={mutation}
+              />
+            );
+          })}
           <AxisBottom top={yMax} scale={indexScale} />
         </Group>
       </svg>
