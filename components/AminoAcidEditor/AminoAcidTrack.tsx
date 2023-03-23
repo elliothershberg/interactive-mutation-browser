@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useRef, useMemo } from "react";
 import { useAtomValue } from "jotai";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { Group } from "@visx/group";
 import { AxisBottom } from "@visx/axis";
+import { Brush } from "@visx/brush";
+import { Bounds } from "@visx/brush/lib/types";
+import BaseBrush, {
+  BaseBrushState,
+  UpdateBrush,
+} from "@visx/brush/lib/BaseBrush";
 
 import MutationCircle from "./MutationCircle";
 
@@ -14,6 +20,7 @@ import {
 } from "../../lib/sequenceState";
 
 const defaultMargin = { top: 20, right: 100, bottom: 35, left: 20 };
+const brushMargin = { top: 10, bottom: 15, left: 50, right: 70 };
 
 function AminoAcidTrackViewer({
   parentHeight,
@@ -41,6 +48,34 @@ function AminoAcidTrackViewer({
 
   indexScale.range([0, xMax]);
 
+  // brush
+  const brushRef = useRef<BaseBrush | null>(null);
+
+  const onBrushChange = (domain: Bounds | null) => {
+    if (!domain) return;
+    const { x0, x1, y0, y1 } = domain;
+    console.log(x0, x1, y0, y1);
+  };
+
+  const xBrushMax = Math.max(
+    parentWidth - brushMargin.left - brushMargin.right,
+    0
+  );
+  const yBrushMax = Math.max(
+    parentHeight - brushMargin.top - brushMargin.bottom,
+    0
+  );
+
+  const initialBrushPosition = useMemo(
+    () => ({
+      start: { x: indexScale(100) },
+      end: { x: indexScale(400) },
+    }),
+    [indexScale]
+  );
+
+  console.log(initialBrushPosition);
+
   return (
     <div>
       <svg height={parentHeight} width={parentWidth}>
@@ -58,6 +93,22 @@ function AminoAcidTrackViewer({
               />
             );
           })}
+          <Brush
+            xScale={indexScale}
+            yScale={indexScale}
+            width={xBrushMax}
+            height={yBrushMax}
+            margin={brushMargin}
+            handleSize={8}
+            innerRef={brushRef}
+            resizeTriggerAreas={[]}
+            brushDirection="horizontal"
+            initialBrushPosition={initialBrushPosition}
+            onChange={onBrushChange}
+            onClick={() => console.log("click")}
+            useWindowMoveEvents
+            onMouseLeave={() => {}}
+          />
           <AxisBottom top={yMax} scale={indexScale} />
         </Group>
       </svg>
