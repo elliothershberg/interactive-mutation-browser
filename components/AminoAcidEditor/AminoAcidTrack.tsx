@@ -75,8 +75,6 @@ function AminoAcidTrackViewer({
     [indexScale]
   );
 
-  console.log(initialBrushPosition);
-
   return (
     <div>
       <svg height={parentHeight} width={parentWidth}>
