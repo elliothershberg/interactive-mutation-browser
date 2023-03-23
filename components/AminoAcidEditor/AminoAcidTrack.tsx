@@ -79,19 +79,6 @@ function AminoAcidTrackViewer({
     <div>
       <svg height={parentHeight} width={parentWidth}>
         <Group left={margin.left} top={margin.top}>
-          {mutationArray.map((mutation, i) => {
-            if (mutation.mutatedAA === "") {
-              return null;
-            }
-            return (
-              <MutationCircle
-                key={i}
-                cx={indexScale(i)}
-                cy={yMax / 2}
-                mutation={mutation}
-              />
-            );
-          })}
           <Brush
             xScale={indexScale}
             yScale={yScale}
@@ -112,6 +99,19 @@ function AminoAcidTrackViewer({
             }}
             useWindowMoveEvents
           />
+          {mutationArray.map((mutation, i) => {
+            if (mutation.mutatedAA === "") {
+              return null;
+            }
+            return (
+              <MutationCircle
+                key={i}
+                cx={indexScale(i)}
+                cy={yMax / 2}
+                mutation={mutation}
+              />
+            );
+          })}
           <AxisBottom top={yMax} scale={indexScale} />
         </Group>
       </svg>
