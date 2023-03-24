@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from "react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { ParentSize } from "@visx/responsive";
 import { scaleLinear } from "@visx/scale";
 import { Group } from "@visx/group";
@@ -13,6 +13,7 @@ import MutationCircle from "./MutationCircle";
 import {
   wildTypeSequenceAtom,
   mutatedSequenceAtom,
+  brushAtom,
   computeMutationArray,
 } from "../../lib/sequenceState";
 
@@ -30,6 +31,7 @@ function AminoAcidTrackViewer({
 }) {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const mutatedSequence = useAtomValue(mutatedSequenceAtom);
+  const setBrush = useSetAtom(brushAtom);
   const mutationArray = computeMutationArray(wildTypeSequence, mutatedSequence);
   const seqLength = wildTypeSequence.length;
 
@@ -54,8 +56,10 @@ function AminoAcidTrackViewer({
 
   const onBrushChange = (domain: Bounds | null) => {
     if (!domain) return;
-    const { x0, x1, y0, y1 } = domain;
-    // console.log(x0, x1, y0, y1);
+    const { x0, x1 } = domain;
+    const brushStart = x0 < 0 ? 0 : x0;
+    const brushEnd = x1 > seqLength ? seqLength : x1;
+    setBrush({ brushStart, brushEnd });
   };
 
   const xBrushMax = Math.max(
@@ -69,8 +73,9 @@ function AminoAcidTrackViewer({
 
   const initialBrushPosition = useMemo(
     () => ({
-      start: { x: indexScale(100) },
-      end: { x: indexScale(400) },
+      start: { x: indexScale(0) },
+      // start at either the end of the sequence or 50 amino acids
+      end: { x: indexScale(seqLength < 50 ? seqLength : 50) },
     }),
     [indexScale]
   );

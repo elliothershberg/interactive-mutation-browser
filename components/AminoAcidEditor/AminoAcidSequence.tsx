@@ -1,21 +1,27 @@
 import React from "react";
 import { useAtomValue } from "jotai";
 
-import { wildTypeSequenceAtom } from "../../lib/sequenceState";
+import { wildTypeSequenceAtom, brushAtom } from "../../lib/sequenceState";
 import AminoAcidPopover from "./AminoAcidPopover";
 
 function AminoAcidSequence() {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
+  const brushRange = useAtomValue(brushAtom);
+  const { brushStart, brushEnd } = brushRange;
+
+  const seqArray = wildTypeSequence
+    .split("")
+    .map((aminoAcid, index) => {
+      return { aa: aminoAcid, position: index + 1 };
+    })
+    .slice(brushStart, brushEnd);
 
   return (
-    <div className="flex flex-wrap w-full max-h-80 overflow-scroll">
-      {wildTypeSequence.split("").map((aminoAcid: any, index) => {
+    <div className="flex flex-wrap w-full">
+      {seqArray.map((aminoAcid) => {
+        const { aa, position } = aminoAcid;
         return (
-          <AminoAcidPopover
-            aminoAcid={aminoAcid}
-            key={index + 1}
-            position={index + 1}
-          />
+          <AminoAcidPopover aminoAcid={aa} key={position} position={position} />
         );
       })}
     </div>
