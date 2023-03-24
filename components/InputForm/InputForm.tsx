@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useSetAtom } from "jotai";
 
 import InputAlertModal from "./InputAlertModal";
-import { AMINO_ACIDS, CAS9 } from "../../lib/constants";
+import { AMINO_ACIDS, OCT4 } from "../../lib/constants";
 
 import {
   wildTypeSequenceAtom,
@@ -41,6 +41,8 @@ export default function InputForm() {
     router.push("/browser");
   };
 
+  console.log(OCT4.length);
+
   return (
     <div>
       <h1 className="text-6xl font-bold text-gray-900">
@@ -51,7 +53,7 @@ export default function InputForm() {
         <button
           className="text-indigo-500"
           onClick={() => {
-            setFormInput(CAS9);
+            setFormInput(OCT4);
           }}
         >
           example.
