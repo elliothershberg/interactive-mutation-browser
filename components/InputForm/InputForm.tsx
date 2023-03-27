@@ -38,7 +38,7 @@ export default function InputForm() {
     setWildTypeSequence(formInput);
     setMutatedSequence(formInput);
 
-    router.push("/browser");
+    router.push("/editor");
   };
 
   return (

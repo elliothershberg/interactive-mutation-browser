@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
 import { InfoPopover } from "../components/AminoAcidEditor";
 
-const Browser: NextPage = () => {
+const Editor: NextPage = () => {
   const router = useRouter();
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const mutatedSequence = useAtomValue(mutatedSequenceAtom);
@@ -66,4 +66,4 @@ const Browser: NextPage = () => {
   );
 };
 
-export default Browser;
+export default Editor;
