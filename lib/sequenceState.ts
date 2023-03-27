@@ -30,5 +30,5 @@ export function computeMutationArray(
   return mutationArray;
 }
 
-export const brushAtom = atom({ brushStart: 0, brushEnd: 0 });
+export const brushAtom = atom({ brushStart: 0, brushEnd: 50 });
 brushAtom.debugLabel = "brushAtom";
