@@ -20,10 +20,7 @@ function AminoAcidPopover({
     null
   );
   let [popperElement, setPopperElement] = useState<HTMLElement | null>();
-  const [arrowElement, setArrowElement] = useState<HTMLElement | null>();
-  let { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [{ name: "arrow", options: { element: arrowElement } }],
-  });
+  let { styles, attributes } = usePopper(referenceElement, popperElement);
 
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const wildTypeArray = wildTypeSequence.split("");
@@ -67,9 +64,6 @@ function AminoAcidPopover({
         style={styles.popper}
         {...attributes.popper}
       >
-        <div ref={setArrowElement} style={styles.arrow} className="-mt-3">
-          ↑
-        </div>
         <div className="bg-white rounded-lg shadow-lg p-4 border border-gray-900 flex flex-wrap w-96 mt-2">
           {AMINO_ACIDS.map((aminoAcid, index) => {
             const key = position + aminoAcid + index;
