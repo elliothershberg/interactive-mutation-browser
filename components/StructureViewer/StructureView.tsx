@@ -1,13 +1,16 @@
-import Script from "next/script";
-import { useState } from "react";
+import { useEffect } from "react";
 import useSWR from "swr";
+import $ from "jquery";
+// @ts-ignore
+import * as $3Dmol from "3dmol/build/3Dmol.js";
 
-function StructureViewer({ sequence }: { sequence: string }) {
-  const [structure, setStructure] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  // state for keeping track of the 3Dmol.js script loading
-  const [viewerLoaded, setviewerLoaded] = useState(false);
-
+function StructureViewer({
+  sequence,
+  elementId,
+}: {
+  sequence: string;
+  elementId: string;
+}) {
   const fetchStructure = (endpoint: string) =>
     fetch(endpoint, {
       method: "POST",
@@ -22,38 +25,42 @@ function StructureViewer({ sequence }: { sequence: string }) {
 
   const { data, error, isLoading } = useSWR("api/structure", fetchStructure);
 
+  useEffect(() => {
+    const initViewer = () => {
+      let element = $("#" + elementId);
+      let config = { backgroundColor: "white" };
+      let viewer = $3Dmol.createViewer(element, config);
+      viewer.addModel(data.message, "pdb");
+      viewer.setStyle({}, { cartoon: { color: "spectrum" } });
+      viewer.addSurface($3Dmol.SurfaceType.MS, {
+        opacity: 0.7,
+        color: "white",
+      });
+      viewer.zoomTo();
+      viewer.render();
+      viewer.zoom(0.8, 2000);
+    };
+
+    if (
+      typeof window !== "undefined" &&
+      !isLoading &&
+      !error &&
+      data.message !== "Sequence is empty."
+    ) {
+      initViewer();
+    }
+  }, [data]);
+
   return (
-    <>
-      <Script
-        src="https://3Dmol.org/build/3Dmol-min.js"
-        onLoad={() => {
-          setviewerLoaded(true);
-        }}
-      ></Script>
-      <div>
-        {structure && (
-          <div className="w-full h-full">
-            <textarea
-              className="hidden"
-              id={sequence}
-              value={structure.message}
-              readOnly
-            ></textarea>
-            <div
-              style={{ height: 400, width: 400, position: "relative" }}
-              className="viewer_3Dmoljs"
-              data-element={sequence}
-              data-type="pdb"
-              data-backgroundcolor="0xffffff"
-              data-style="cartoon:color=spectrum"
-              data-surface="opacity:.7;color:white"
-              // data-style="stick"
-              data-ui="true"
-            ></div>
-          </div>
-        )}
+    <div>
+      <div className="w-full h-full">
+        <div
+          style={{ height: 600, width: 600, position: "relative" }}
+          id={elementId}
+          className={elementId}
+        ></div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,14 +1,18 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { Suspense } from "react";
 import { useAtomValue } from "jotai";
 
 import {
   wildTypeSequenceAtom,
   mutatedSequenceAtom,
 } from "../lib/sequenceState";
+import dynamic from "next/dynamic";
 
-import StructureViewer from "../components/StructureViewer";
+const StructureViewer = dynamic(() => import("../components/StructureViewer"), {
+  ssr: false,
+});
 
 const Editor: NextPage = () => {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
@@ -29,13 +33,23 @@ const Editor: NextPage = () => {
         <div className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
           <div className="flex flex-row">
             <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
-              Wild-type structure:
-              <StructureViewer sequence={wildTypeSequence} />
+              <div className="mb-2">Wild-type structure</div>
+              <Suspense>
+                <StructureViewer
+                  sequence={wildTypeSequence}
+                  elementId={"wildTypeViewer"}
+                />
+              </Suspense>
             </div>
 
             <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
-              Mutated structure:
-              <StructureViewer sequence={mutatedSequence} />
+              <div className="mb-2">Mutated structure</div>
+              <Suspense>
+                <StructureViewer
+                  sequence={mutatedSequence}
+                  elementId={"mutationViewer"}
+                />
+              </Suspense>
             </div>
           </div>
         </div>
