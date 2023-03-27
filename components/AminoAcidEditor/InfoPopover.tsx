@@ -9,7 +9,7 @@ function InfoPopover() {
   );
   let [popperElement, setPopperElement] = useState<HTMLElement | null>();
   let { styles, attributes } = usePopper(referenceElement, popperElement, {
-    placement: "right",
+    placement: "bottom-start",
   });
 
   return (
