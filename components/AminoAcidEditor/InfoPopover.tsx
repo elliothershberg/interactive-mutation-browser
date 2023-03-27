@@ -15,10 +15,7 @@ function InfoPopover() {
   return (
     <Popover>
       <Popover.Button ref={setReferenceElement} className="focus:outline-none">
-        <QuestionMarkCircleIcon
-          className="h-6 w-6 pl-1 pt-1"
-          aria-hidden="true"
-        />
+        <QuestionMarkCircleIcon className="h-6 w-6 pl-1" aria-hidden="true" />
       </Popover.Button>
 
       <Popover.Panel
