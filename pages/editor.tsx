@@ -42,7 +42,10 @@ const Editor: NextPage = () => {
               <InfoPopover />
             </div>
 
-            <Link href="/" className="text-xl text-gray-700 place-self-end">
+            <Link
+              href="/browser"
+              className="text-xl text-gray-700 place-self-end"
+            >
               Predict structure →
             </Link>
           </div>
