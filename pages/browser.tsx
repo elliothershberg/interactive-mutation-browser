@@ -1,8 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useAtomValue } from "jotai";
+
+import {
+  wildTypeSequenceAtom,
+  mutatedSequenceAtom,
+} from "../lib/sequenceState";
+
+import StructureViewer from "../components/StructureViewer";
 
 const Editor: NextPage = () => {
+  const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
+  const mutatedSequence = useAtomValue(mutatedSequenceAtom);
+
   return (
     <div>
       <Head>
@@ -19,9 +30,12 @@ const Editor: NextPage = () => {
           <div className="flex flex-row">
             <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
               Wild-type structure:
+              <StructureViewer sequence={wildTypeSequence} />
             </div>
+
             <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
               Mutated structure:
+              <StructureViewer sequence={mutatedSequence} />
             </div>
           </div>
         </div>

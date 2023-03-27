@@ -1,5 +1,6 @@
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useSWR from "swr";
 
 function StructureViewer({ sequence }: { sequence: string }) {
   const [structure, setStructure] = useState<any>(null);
@@ -7,8 +8,8 @@ function StructureViewer({ sequence }: { sequence: string }) {
   // state for keeping track of the 3Dmol.js script loading
   const [viewerLoaded, setviewerLoaded] = useState(false);
 
-  const fetchStructure = async () => {
-    const response = await fetch("api/structure", {
+  const fetchStructure = (endpoint: string) =>
+    fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,27 +18,9 @@ function StructureViewer({ sequence }: { sequence: string }) {
       body: JSON.stringify({
         sequence: sequence,
       }),
-    });
+    }).then((response) => response.json());
 
-    const data = await response.json();
-
-    return data;
-  };
-
-  useEffect(() => {
-    fetchStructure().then((data) => {
-      setStructure(data);
-      setLoading(false);
-      const { $3Dmol } = globalThis as any;
-      if ($3Dmol) {
-        $3Dmol.autoload();
-      }
-    });
-  }, [sequence, viewerLoaded]);
-
-  // need to wait for the structure to be fetched,
-  // then initialize the viewer
-  // useEffect(() => {}, [structure, viewerLoaded]);
+  const { data, error, isLoading } = useSWR("api/structure", fetchStructure);
 
   return (
     <>
