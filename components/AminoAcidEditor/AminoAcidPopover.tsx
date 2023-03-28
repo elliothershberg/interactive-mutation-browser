@@ -78,6 +78,11 @@ function AminoAcidPopover({
               </Popover.Button>
             );
           })}
+          <Popover.Button onClick={(e) => handleAminoAcidChange("-")}>
+            <div className="border border-gray-900 w-[19.75rem] h-6 flex items-center justify-center m-2 p-6 rounded hover:bg-gray-300">
+              Delete amino acid
+            </div>{" "}
+          </Popover.Button>
         </div>
       </Popover.Panel>
     </Popover>
