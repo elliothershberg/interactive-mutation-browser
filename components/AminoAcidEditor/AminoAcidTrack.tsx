@@ -41,7 +41,7 @@ function AminoAcidTrackViewer({
 
   // scales
   const indexScale = scaleLinear<number>({
-    domain: [0, seqLength],
+    domain: [1, seqLength],
     nice: true,
   });
   const yScale = scaleLinear<number>({
@@ -73,7 +73,7 @@ function AminoAcidTrackViewer({
 
   const initialBrushPosition = useMemo(
     () => ({
-      start: { x: indexScale(0) },
+      start: { x: indexScale(1) },
       // start at either the end of the sequence or 50 amino acids
       end: { x: indexScale(seqLength < 50 ? seqLength : 50) },
     }),
@@ -111,7 +111,7 @@ function AminoAcidTrackViewer({
             return (
               <MutationCircle
                 key={i}
-                cx={indexScale(i)}
+                cx={indexScale(mutation.position)}
                 cy={yMax / 2}
                 mutation={mutation}
               />
