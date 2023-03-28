@@ -7,6 +7,7 @@ import { useAtomValue } from "jotai";
 import {
   wildTypeSequenceAtom,
   mutatedSequenceAtom,
+  computeMutationArray,
 } from "../lib/sequenceState";
 import dynamic from "next/dynamic";
 
@@ -17,6 +18,14 @@ const StructureViewer = dynamic(() => import("../components/StructureViewer"), {
 const Editor: NextPage = () => {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const mutatedSequence = useAtomValue(mutatedSequenceAtom);
+
+  const mutationArray = computeMutationArray(wildTypeSequence, mutatedSequence);
+  let mutatedResidues = [] as string[];
+  mutationArray.map((mutation) => {
+    if (mutation.mutatedAA !== "") {
+      mutatedResidues.push(mutation.position.toString());
+    }
+  });
 
   return (
     <div>
@@ -48,6 +57,7 @@ const Editor: NextPage = () => {
                 <StructureViewer
                   sequence={mutatedSequence}
                   elementId={"mutationViewer"}
+                  mutatedResidues={mutatedResidues}
                 />
               </Suspense>
             </div>

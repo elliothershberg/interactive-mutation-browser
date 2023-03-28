@@ -7,9 +7,11 @@ import * as $3Dmol from "3dmol/build/3Dmol.js";
 function StructureViewer({
   sequence,
   elementId,
+  mutatedResidues = [],
 }: {
   sequence: string;
   elementId: string;
+  mutatedResidues?: string[];
 }) {
   const fetchStructure = (endpoint: string) =>
     fetch(endpoint, {
@@ -31,7 +33,14 @@ function StructureViewer({
       let config = { backgroundColor: "white" };
       let viewer = $3Dmol.createViewer(element, config);
       viewer.addModel(data.message, "pdb");
-      viewer.setStyle({}, { cartoon: { color: "spectrum" } });
+      viewer.setStyle({}, { cartoon: { color: "grey" } });
+      if (mutatedResidues.length > 0) {
+        console.log("yup!");
+        viewer.setStyle(
+          { resi: mutatedResidues },
+          { cartoon: { color: "red" } }
+        );
+      }
       viewer.addSurface($3Dmol.SurfaceType.MS, {
         opacity: 0.7,
         color: "white",
