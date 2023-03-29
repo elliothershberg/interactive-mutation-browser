@@ -3,32 +3,31 @@ import { atom } from "jotai";
 export const wildTypeSequenceAtom = atom("");
 wildTypeSequenceAtom.debugLabel = "wildTypeSequenceAtom";
 
-export const mutatedSequenceAtom = atom("");
-mutatedSequenceAtom.debugLabel = "mutatedSequenceAtom";
-
-interface MutationArrayEntry {
+export interface MutationArrayEntry {
   wildTypeAA: string;
   mutatedAA: string;
   position: number;
+  insertion?: string;
 }
 
-export function computeMutationArray(
-  wildTypeSequence: string,
-  mutatedSequence: string
-) {
-  const mutationArray: Array<MutationArrayEntry> = [];
-  for (let i = 0; i < wildTypeSequence.length; i++) {
-    const mutatedAA =
-      wildTypeSequence[i] === mutatedSequence[i] ? "" : mutatedSequence[i];
-    mutationArray.push({
-      wildTypeAA: wildTypeSequence[i],
-      mutatedAA,
-      position: i + 1,
-    });
-  }
+export const mutationArrayAtom = atom<MutationArrayEntry[]>([]);
+mutationArrayAtom.debugLabel = "mutationArrayAtom";
 
-  return mutationArray;
-}
+export const mutatedSequenceAtom = atom((get) => {
+  const wildTypeSequence = get(wildTypeSequenceAtom);
+  const mutationArray = get(mutationArrayAtom);
+  let mutatedSequence = wildTypeSequence.split("");
+  mutationArray.forEach((mutation) => {
+    if (mutation.insertion) {
+      mutatedSequence[mutation.position - 1] = mutation.insertion;
+    } else if (mutation.mutatedAA === "-") {
+      mutatedSequence[mutation.position - 1] = "";
+    } else {
+      mutatedSequence[mutation.position - 1] = mutation.mutatedAA;
+    }
+  });
+  return mutatedSequence.join("");
+});
 
 export const brushAtom = atom({ brushStart: 0, brushEnd: 50 });
 brushAtom.debugLabel = "brushAtom";

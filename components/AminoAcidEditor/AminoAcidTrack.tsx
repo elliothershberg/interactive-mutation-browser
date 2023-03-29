@@ -12,9 +12,8 @@ import MutationCircle from "./MutationCircle";
 
 import {
   wildTypeSequenceAtom,
-  mutatedSequenceAtom,
+  mutationArrayAtom,
   brushAtom,
-  computeMutationArray,
 } from "../../lib/sequenceState";
 
 const defaultMargin = { top: 20, right: 100, bottom: 35, left: 20 };
@@ -30,9 +29,9 @@ function AminoAcidTrackViewer({
   margin?: typeof defaultMargin;
 }) {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
-  const mutatedSequence = useAtomValue(mutatedSequenceAtom);
+  const mutationArray = useAtomValue(mutationArrayAtom);
   const setBrush = useSetAtom(brushAtom);
-  const mutationArray = computeMutationArray(wildTypeSequence, mutatedSequence);
+
   const seqLength = wildTypeSequence.length;
 
   // bounds
@@ -105,9 +104,6 @@ function AminoAcidTrackViewer({
             useWindowMoveEvents
           />
           {mutationArray.map((mutation, i) => {
-            if (mutation.mutatedAA === "") {
-              return null;
-            }
             return (
               <MutationCircle
                 key={i}

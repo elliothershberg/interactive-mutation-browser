@@ -23,7 +23,7 @@ const Editor: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Browser</title>
+        <title>Editor</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {wildTypeSequence.length !== 0 && (

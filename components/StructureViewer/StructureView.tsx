@@ -4,14 +4,16 @@ import $ from "jquery";
 // @ts-ignore
 import * as $3Dmol from "3dmol/build/3Dmol.js";
 
+import { MutationArrayEntry } from "../../lib/sequenceState";
+
 function StructureViewer({
   sequence,
   elementId,
-  mutatedResidues = [],
+  mutationArray = [],
 }: {
   sequence: string;
   elementId: string;
-  mutatedResidues?: string[];
+  mutationArray?: MutationArrayEntry[];
 }) {
   const fetchStructure = (endpoint: string) =>
     fetch(endpoint, {
@@ -34,10 +36,9 @@ function StructureViewer({
       let viewer = $3Dmol.createViewer(element, config);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
-      if (mutatedResidues.length > 0) {
-        console.log("yup!");
+      if (mutationArray.length > 0) {
         viewer.setStyle(
-          { resi: mutatedResidues },
+          { resi: mutationArray.map((mutation) => mutation.position) },
           { cartoon: { color: "red" } }
         );
       }

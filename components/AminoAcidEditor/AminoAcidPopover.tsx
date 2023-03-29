@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Popover } from "@headlessui/react";
 import { usePopper } from "react-popper";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 
-import {
-  wildTypeSequenceAtom,
-  mutatedSequenceAtom,
-} from "../../lib/sequenceState";
+import { mutationArrayAtom } from "../../lib/sequenceState";
 import { AMINO_ACIDS } from "../../lib/constants";
 
 function AminoAcidPopover({
@@ -22,21 +19,33 @@ function AminoAcidPopover({
   let [popperElement, setPopperElement] = useState<HTMLElement | null>();
   let { styles, attributes } = usePopper(referenceElement, popperElement);
 
-  const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
-  const wildTypeArray = wildTypeSequence.split("");
+  const [mutationArray, setMutationArray] = useAtom(mutationArrayAtom);
 
-  const [mutatedSequence, setMutatedSequence] = useAtom(mutatedSequenceAtom);
-  const mutatedArray = mutatedSequence.split("");
+  const isPositionMutated = mutationArray.find(
+    (mutation) => mutation.position === position
+  );
 
   const handleAminoAcidChange = (aminoAcidClicked: string) => {
-    mutatedArray[position - 1] = aminoAcidClicked;
-    setMutatedSequence(mutatedArray.join(""));
+    if (aminoAcidClicked !== aminoAcid) {
+      setMutationArray((mutationArray) => [
+        ...mutationArray.filter((mutation) => mutation.position !== position),
+        {
+          wildTypeAA: aminoAcid,
+          mutatedAA: aminoAcidClicked,
+          position: position,
+        },
+      ]);
+    } else {
+      setMutationArray((mutationArray) => [
+        ...mutationArray.filter((mutation) => mutation.position !== position),
+      ]);
+    }
   };
 
   return (
     <Popover>
       <Popover.Button ref={setReferenceElement} className="focus:outline-none">
-        {wildTypeArray[position - 1] === mutatedArray[position - 1] ? (
+        {isPositionMutated === undefined ? (
           <div className="border border-gray-900 w-6 h-6 flex items-center justify-center m-2 p-8 rounded hover:bg-gray-300">
             <div>
               <strong className="text-xl text-gray-900 font-bold">
@@ -50,7 +59,7 @@ function AminoAcidPopover({
           <div className="border border-indigo-600 w-6 h-6 flex items-center justify-center m-2 p-8 rounded bg-gray-300">
             <div>
               <strong className="text-xl text-indigo-600 font-bold">
-                {wildTypeArray[position - 1]}→{mutatedArray[position - 1]}
+                {aminoAcid}→{isPositionMutated.mutatedAA}
               </strong>
               <br />
               <p className="text-sm text-gray-600">{position}</p>
