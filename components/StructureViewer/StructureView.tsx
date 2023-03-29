@@ -9,11 +9,11 @@ import { MutationArrayEntry } from "../../lib/sequenceState";
 function StructureViewer({
   sequence,
   elementId,
-  mutationArray = [],
+  mutatedResidues = [],
 }: {
   sequence: string;
   elementId: string;
-  mutationArray?: MutationArrayEntry[];
+  mutatedResidues?: string[];
 }) {
   const fetchStructure = (endpoint: string) =>
     fetch(endpoint, {
@@ -29,6 +29,9 @@ function StructureViewer({
 
   const { data, error, isLoading } = useSWR("api/structure", fetchStructure);
 
+  console.log(sequence.length);
+  console.log(mutatedResidues);
+
   useEffect(() => {
     const initViewer = () => {
       let element = $("#" + elementId);
@@ -36,9 +39,10 @@ function StructureViewer({
       let viewer = $3Dmol.createViewer(element, config);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
-      if (mutationArray.length > 0) {
-        viewer.setStyle(
-          { resi: mutationArray.map((mutation) => mutation.position) },
+      viewer.addStyle({ stick: { color: "spectrum" } });
+      if (mutatedResidues.length > 0) {
+        viewer.addStyle(
+          { resi: mutatedResidues },
           { cartoon: { color: "red" } }
         );
       }
