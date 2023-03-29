@@ -2,11 +2,7 @@ import React from "react";
 import { Circle } from "@visx/shape";
 import { useTooltip, useTooltipInPortal } from "@visx/tooltip";
 
-interface Mutation {
-  wildTypeAA: string;
-  mutatedAA: string;
-  position: number;
-}
+import { MutationArrayEntry } from "../../lib/sequenceState";
 
 function MutationCircle({
   cx,
@@ -15,7 +11,7 @@ function MutationCircle({
 }: {
   cx: number;
   cy: number;
-  mutation: Mutation;
+  mutation: MutationArrayEntry;
 }) {
   const { tooltipLeft, tooltipTop, tooltipOpen, showTooltip, hideTooltip } =
     useTooltip();
@@ -51,7 +47,8 @@ function MutationCircle({
             className="flex items-center justify-center flex-col border border-gray-900 rounded"
           >
             <strong className="text-gray-900 p-1">
-              {mutation.wildTypeAA} → {mutation.mutatedAA}
+              {mutation.wildTypeAA} →{" "}
+              {mutation.insertion ? mutation.insertion : mutation.mutatedAA}
             </strong>
             <p className=" text-gray-600">{mutation.position}</p>
           </TooltipInPortal>

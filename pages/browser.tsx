@@ -8,6 +8,7 @@ import {
   wildTypeSequenceAtom,
   mutationArrayAtom,
   mutatedSequenceAtom,
+  mutatedResiduesAtom,
 } from "../lib/sequenceState";
 import dynamic from "next/dynamic";
 
@@ -19,6 +20,7 @@ const Browser: NextPage = () => {
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const mutationArray = useAtomValue(mutationArrayAtom);
   const mutatedSequence = useAtomValue(mutatedSequenceAtom);
+  const mutatedResidues = useAtomValue(mutatedResiduesAtom);
 
   return (
     <div>
@@ -32,7 +34,15 @@ const Browser: NextPage = () => {
             ← Back to editor
           </Link>
         </div>
-        <div className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
+
+        <br />
+        <div>{wildTypeSequence}</div>
+        <br />
+        <div>{mutatedSequence}</div>
+        <br />
+        {mutatedResidues.map((residue) => residue + ", ")}
+
+        {/* <div className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
           <div className="flex flex-row">
             <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
               <div className="mb-2">Wild-type structure</div>
@@ -55,7 +65,7 @@ const Browser: NextPage = () => {
               </Suspense>
             </div>
           </div>
-        </div>
+        </div> */}
       </main>
     </div>
   );
