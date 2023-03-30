@@ -44,17 +44,17 @@ function StructureViewer({
       let viewer = $3Dmol.createViewer(element, config);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
-      viewer.addStyle({ stick: { color: "spectrum" } });
+      // viewer.addStyle({ stick: { color: "spectrum" } });
       if (mutatedResidues.length > 0) {
         viewer.addStyle(
           { resi: mutatedResidues },
           { cartoon: { color: "red" } }
         );
       }
-      viewer.addSurface($3Dmol.SurfaceType.MS, {
-        opacity: 0.7,
-        color: "white",
-      });
+      // viewer.addSurface($3Dmol.SurfaceType.MS, {
+      //   opacity: 0.7,
+      //   color: "white",
+      // });
       viewer.zoomTo();
       viewer.render();
       viewer.zoom(0.8, 2000);
