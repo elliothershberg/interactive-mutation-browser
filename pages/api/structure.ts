@@ -17,6 +17,7 @@ export default async function handler(
 
   const data = await response.text();
 
+  console.log(req.body.sequence);
   console.log(data);
 
   res.json({ message: data });

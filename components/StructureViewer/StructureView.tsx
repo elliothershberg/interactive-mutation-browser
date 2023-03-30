@@ -1,10 +1,7 @@
-import { useEffect } from "react";
-import useSWR from "swr";
+import { useState, useEffect } from "react";
 import $ from "jquery";
 // @ts-ignore
 import * as $3Dmol from "3dmol/build/3Dmol.js";
-
-import { MutationArrayEntry } from "../../lib/sequenceState";
 
 function StructureViewer({
   sequence,
@@ -15,8 +12,10 @@ function StructureViewer({
   elementId: string;
   mutatedResidues?: string[];
 }) {
-  const fetchStructure = (endpoint: string) =>
-    fetch(endpoint, {
+  const [data, setData] = useState<any>(null);
+
+  const fetchStructure = async () => {
+    const response = await fetch("api/structure", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,12 +24,18 @@ function StructureViewer({
       body: JSON.stringify({
         sequence: sequence,
       }),
-    }).then((response) => response.json());
+    });
 
-  const { data, error, isLoading } = useSWR("api/structure", fetchStructure);
+    const data = await response.json();
 
-  console.log(sequence.length);
-  console.log(mutatedResidues);
+    return data;
+  };
+
+  useEffect(() => {
+    fetchStructure().then((data) => {
+      setData(data);
+    });
+  }, []);
 
   useEffect(() => {
     const initViewer = () => {
@@ -55,12 +60,7 @@ function StructureViewer({
       viewer.zoom(0.8, 2000);
     };
 
-    if (
-      typeof window !== "undefined" &&
-      !isLoading &&
-      !error &&
-      data.message !== "Sequence is empty."
-    ) {
+    if (typeof window !== "undefined" && data !== null) {
       initViewer();
     }
   }, [data]);
