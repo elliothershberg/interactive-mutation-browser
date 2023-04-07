@@ -13,6 +13,7 @@ function StructureViewer({
   mutatedResidues?: string[];
 }) {
   const [data, setData] = useState<any>(null);
+  const [viewerLoaded, setViewerLoaded] = useState(false);
 
   const fetchStructure = async () => {
     const response = await fetch("api/structure", {
@@ -42,6 +43,7 @@ function StructureViewer({
       let element = $("#" + elementId);
       let config = { backgroundColor: "white" };
       let viewer = $3Dmol.createViewer(element, config);
+      setViewerLoaded(true);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
       // viewer.addStyle({ stick: { color: "spectrum" } });
@@ -71,7 +73,7 @@ function StructureViewer({
         <div
           style={{ height: 600, width: 600, position: "relative" }}
           id={elementId}
-          className={elementId}
+          className={viewerLoaded ? "" : "bg-white animate-pulse"}
         ></div>
       </div>
     </div>
