@@ -36,7 +36,7 @@ function StructureViewer({
     fetchStructure().then((data) => {
       setData(data);
     });
-  }, []);
+  }, [sequence]);
 
   useEffect(() => {
     const initViewer = () => {
