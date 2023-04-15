@@ -62,7 +62,12 @@ function StructureViewer({
       viewer.zoom(0.8, 2000);
     };
 
-    if (typeof window !== "undefined" && $3Dmol && !isLoading && !isError) {
+    if (
+      typeof window !== "undefined" &&
+      typeof $3Dmol !== "undefined" &&
+      !isLoading &&
+      !isError
+    ) {
       initViewer();
     } else {
       console.log("Fetching error:", error);
