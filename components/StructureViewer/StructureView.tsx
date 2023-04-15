@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import $ from "jquery";
 // @ts-ignore
 import * as $3Dmol from "3dmol/build/3Dmol.js";
@@ -12,7 +13,7 @@ function StructureViewer({
   elementId: string;
   mutatedResidues?: string[];
 }) {
-  const [data, setData] = useState<any>(null);
+  const [viewerLoaded, setViewerLoaded] = useState(false);
 
   const fetchStructure = async () => {
     const response = await fetch("api/structure", {
@@ -31,37 +32,35 @@ function StructureViewer({
     return data;
   };
 
-  useEffect(() => {
-    fetchStructure().then((data) => {
-      setData(data);
-    });
-  }, []);
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: [sequence],
+    queryFn: fetchStructure,
+  });
 
   useEffect(() => {
     const initViewer = () => {
       let element = $("#" + elementId);
       let config = { backgroundColor: "white" };
       let viewer = $3Dmol.createViewer(element, config);
+      setViewerLoaded(true);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
-      // viewer.addStyle({ stick: { color: "spectrum" } });
+
       if (mutatedResidues.length > 0) {
         viewer.addStyle(
           { resi: mutatedResidues },
           { cartoon: { color: "red" } }
         );
       }
-      // viewer.addSurface($3Dmol.SurfaceType.MS, {
-      //   opacity: 0.7,
-      //   color: "white",
-      // });
       viewer.zoomTo();
       viewer.render();
       viewer.zoom(0.8, 2000);
     };
 
-    if (typeof window !== "undefined" && data !== null) {
+    if (typeof window !== "undefined" && !isLoading && !isError) {
       initViewer();
+    } else {
+      console.log("Fetching error:", error);
     }
   }, [data]);
 
@@ -71,7 +70,7 @@ function StructureViewer({
         <div
           style={{ height: 600, width: 600, position: "relative" }}
           id={elementId}
-          className={elementId}
+          className={viewerLoaded ? "" : "bg-white animate-pulse"}
         ></div>
       </div>
     </div>
