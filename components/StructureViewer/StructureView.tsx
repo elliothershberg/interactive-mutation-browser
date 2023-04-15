@@ -45,6 +45,10 @@ function StructureViewer({
       setViewerLoaded(true);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
+      viewer.addSurface($3Dmol.SurfaceType.MS, {
+        opacity: 0.7,
+        color: "white",
+      });
 
       if (mutatedResidues.length > 0) {
         viewer.addStyle(
