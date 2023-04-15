@@ -56,6 +56,10 @@ function StructureViewer({
           { resi: mutatedResidues },
           { cartoon: { color: "red" } }
         );
+        viewer.addStyle(
+          { resi: mutatedResidues },
+          { stick: { color: "spectrum" } }
+        );
       }
       viewer.zoomTo();
       viewer.render();
