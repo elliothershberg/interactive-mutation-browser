@@ -1,8 +1,9 @@
+import Script from "next/script";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import $ from "jquery";
-// @ts-ignore
-import * as $3Dmol from "3dmol/build/3Dmol.js";
+
+declare var $3Dmol: any;
 
 function StructureViewer({
   sequence,
@@ -45,11 +46,19 @@ function StructureViewer({
       setViewerLoaded(true);
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
+      viewer.addSurface($3Dmol.SurfaceType.MS, {
+        opacity: 0.7,
+        color: "white",
+      });
 
       if (mutatedResidues.length > 0) {
         viewer.addStyle(
           { resi: mutatedResidues },
           { cartoon: { color: "red" } }
+        );
+        viewer.addStyle(
+          { resi: mutatedResidues },
+          { stick: { color: "spectrum" } }
         );
       }
       viewer.zoomTo();
@@ -57,7 +66,12 @@ function StructureViewer({
       viewer.zoom(0.8, 2000);
     };
 
-    if (typeof window !== "undefined" && !isLoading && !isError) {
+    if (
+      typeof window !== "undefined" &&
+      typeof $3Dmol !== "undefined" &&
+      !isLoading &&
+      !isError
+    ) {
       initViewer();
     } else {
       console.log("Fetching error:", error);
@@ -66,6 +80,10 @@ function StructureViewer({
 
   return (
     <div>
+      <Script
+        src="https://3Dmol.org/build/3Dmol-min.js"
+        strategy="beforeInteractive"
+      />
       <div className="w-full h-full">
         <div
           style={{ height: 600, width: 600, position: "relative" }}
