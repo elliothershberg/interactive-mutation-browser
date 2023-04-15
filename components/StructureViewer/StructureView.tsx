@@ -33,7 +33,7 @@ function StructureViewer({
   };
 
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["structure"],
+    queryKey: [sequence],
     queryFn: fetchStructure,
   });
 
