@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { Suspense } from "react";
+import { useRouter } from "next/router";
+import { Suspense, useEffect } from "react";
 import { useAtomValue } from "jotai";
 
 import {
@@ -16,9 +17,16 @@ const StructureViewer = dynamic(() => import("../components/StructureViewer"), {
 });
 
 const Browser: NextPage = () => {
+  const router = useRouter();
   const wildTypeSequence = useAtomValue(wildTypeSequenceAtom);
   const mutatedSequence = useAtomValue(mutatedSequenceAtom);
   const mutatedResidues = useAtomValue(mutatedResiduesAtom);
+
+  useEffect(() => {
+    if (wildTypeSequence.length === 0) {
+      router.push("/");
+    }
+  }, []);
 
   return (
     <div>
