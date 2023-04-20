@@ -41,6 +41,7 @@ function StructureViewer({
 
   useEffect(() => {
     const initViewer = () => {
+      console.log(data.message.substring(0, 5));
       if (data.message.substring(0, 5) !== "HEADER") {
         setServerError(true);
         return;
