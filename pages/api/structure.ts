@@ -19,5 +19,7 @@ export default async function handler(
 
   const data = await response.text();
 
+  console.log("Response from server: ", data.substring(0, 100) + "...");
+
   res.json({ message: data });
 }

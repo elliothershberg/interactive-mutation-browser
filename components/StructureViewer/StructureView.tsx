@@ -14,6 +14,7 @@ function StructureViewer({
   elementId: string;
   mutatedResidues?: string[];
 }) {
+  const [serverError, setServerError] = useState(false);
   const [viewerLoaded, setViewerLoaded] = useState(false);
 
   const fetchStructure = async () => {
@@ -40,10 +41,15 @@ function StructureViewer({
 
   useEffect(() => {
     const initViewer = () => {
+      if (data.message.substring(0, 5) !== "HEADER") {
+        setServerError(true);
+        return;
+      }
       let element = $("#" + elementId);
       let config = { backgroundColor: "white" };
       let viewer = $3Dmol.createViewer(element, config);
       setViewerLoaded(true);
+      console.log({ data });
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
       viewer.addSurface($3Dmol.SurfaceType.MS, {
@@ -88,8 +94,18 @@ function StructureViewer({
         <div
           style={{ height: 600, width: 600, position: "relative" }}
           id={elementId}
-          className={viewerLoaded ? "" : "bg-white animate-pulse"}
-        ></div>
+          className={
+            viewerLoaded || serverError ? "" : "bg-white animate-pulse"
+          }
+        >
+          {serverError && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <p className="text-center">
+                There was an error fetching the structure prediction.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
