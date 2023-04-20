@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useSetAtom } from "jotai";
 
 import InputAlertModal from "./InputAlertModal";
-import { AMINO_ACIDS, OCT4 } from "../../lib/constants";
+import { AMINO_ACIDS, CP12 } from "../../lib/constants";
 
 import { wildTypeSequenceAtom } from "../../lib/sequenceState";
 
@@ -47,7 +47,7 @@ export default function InputForm() {
         <button
           className="text-indigo-500"
           onClick={() => {
-            setFormInput(OCT4);
+            setFormInput(CP12);
           }}
         >
           example.
