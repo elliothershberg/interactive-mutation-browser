@@ -41,8 +41,8 @@ const Browser: NextPage = () => {
           </Link>
         </div>
         <div className="flex w-full flex-1 flex-col items-center justify-center px-20 py-10 text-center">
-          <div className="flex flex-row">
-            <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
+          <div className="w-full flex flex-col sm:flex-row justify-center">
+            <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6 w-full sm:w-auto">
               <div className="mb-2">Wild-type structure</div>
               <Suspense>
                 <StructureViewer
@@ -52,7 +52,7 @@ const Browser: NextPage = () => {
               </Suspense>
             </div>
 
-            <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6">
+            <div className="bg-gray-300 font-gray-900 font-bold rounded-md border-8 border-gray-300 m-6 w-full sm:w-auto">
               <div className="mb-2">Mutated structure</div>
               <Suspense>
                 <StructureViewer
