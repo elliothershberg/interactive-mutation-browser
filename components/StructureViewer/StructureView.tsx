@@ -49,7 +49,6 @@ function StructureViewer({
       let config = { backgroundColor: "white" };
       let viewer = $3Dmol.createViewer(element, config);
       setViewerLoaded(true);
-      console.log({ data });
       viewer.addModel(data.message, "pdb");
       viewer.setStyle({}, { cartoon: { color: "grey" } });
       viewer.addSurface($3Dmol.SurfaceType.MS, {
@@ -102,6 +101,16 @@ function StructureViewer({
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <p className="text-center">
                 There was an error fetching the structure prediction.
+                {data.message === "Sequence is longer than 400." && (
+                  <>
+                    <br />
+                    <br />
+                    <span>
+                      The sequence is longer than the current ESM API limit of
+                      400 amino acids.
+                    </span>
+                  </>
+                )}
               </p>
             </div>
           )}
