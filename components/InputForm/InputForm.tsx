@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useSetAtom } from "jotai";
 
@@ -38,7 +38,7 @@ export default function InputForm() {
   };
 
   return (
-    <div>
+    <div data-testid="input-form">
       <h1 className="text-6xl font-bold text-gray-900">
         Interactive Mutation Browser
       </h1>

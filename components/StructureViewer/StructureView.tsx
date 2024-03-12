@@ -1,3 +1,4 @@
+import React from 'react';
 import Script from "next/script";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -96,6 +97,7 @@ function StructureViewer({
           className={
             viewerLoaded || serverError ? "" : "bg-white animate-pulse"
           }
+          data-testid="structure-viewer"
         >
           {serverError && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

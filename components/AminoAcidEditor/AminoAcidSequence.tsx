@@ -17,7 +17,7 @@ function AminoAcidSequence() {
     .slice(brushStart, brushEnd);
 
   return (
-    <div className="flex flex-wrap w-full">
+    <div className="flex flex-wrap w-full" data-testid="amino-acid-sequence">
       {seqArray.map((aminoAcid) => {
         const { aa, position } = aminoAcid;
         return (

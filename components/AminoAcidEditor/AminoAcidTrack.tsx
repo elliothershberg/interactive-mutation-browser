@@ -122,7 +122,7 @@ function AminoAcidTrackViewer({
 
 function AminoAcidTrack() {
   return (
-    <div className="w-full h-24 mb-4">
+    <div className="w-full h-24 mb-4" data-testid="amino-acid-track">
       <ParentSize>
         {(parent) =>
           parent.width > 0 && parent.height > 0 ? (
