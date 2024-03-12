@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useSetAtom } from "jotai";
 
@@ -38,7 +38,7 @@ export default function InputForm() {
   };
 
   return (
-    <div>
+    <div data-testid="input-form">
       <h1 className="text-6xl font-bold text-gray-900">
         Interactive Mutation Browser
       </h1>
@@ -60,6 +60,7 @@ export default function InputForm() {
       />
       <div className="grid-cols-1 mt-6">
         <textarea
+          data-testid="input-textarea"
           rows={8}
           cols={80}
           name="comment"
@@ -69,6 +70,7 @@ export default function InputForm() {
           onChange={(e) => setFormInput(e.target.value)}
         />
         <button
+          data-testid="submit-button"
           type="button"
           className=" rounded-md border border-transparent bg-gray-600 px-6 py-3 mt-4 text-base font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={handleSubmit}
