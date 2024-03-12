@@ -12,11 +12,16 @@ function StructureViewer({
   mutatedResidues = [],
 }: {
   sequence: string;
-  elementId: string;
+  elementId?: string;
   mutatedResidues?: string[];
 }) {
   const [serverError, setServerError] = useState(false);
   const [viewerLoaded, setViewerLoaded] = useState(false);
+
+  // If sequence is empty, do not render the component
+  if (sequence === '') {
+    return null;
+  }
 
   const fetchStructure = async () => {
     const response = await fetch("api/structure", {
@@ -42,8 +47,10 @@ function StructureViewer({
 
   useEffect(() => {
     const initViewer = () => {
-      if (data.message.substring(0, 6) !== "HEADER") {
+      if (data?.message && data.message.substring(0, 6) !== "HEADER") {
         setServerError(true);
+        console.log("Server error set to true due to data message condition."); // Added console log for debugging
+        console.log("Data object received:", data); // Additional console log for debugging
         return;
       }
       let element = $("#" + elementId);
@@ -81,8 +88,10 @@ function StructureViewer({
       initViewer();
     } else {
       console.log("Fetching error:", error);
+      console.log("Data object received:", data); // Additional console log for debugging
+      setServerError(true); // Set serverError when isError is true
     }
-  }, [data]);
+  }, [data, isError]);
 
   return (
     <div>
@@ -103,7 +112,7 @@ function StructureViewer({
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <p className="text-center">
                 There was an error fetching the structure prediction.
-                {data.message === "Sequence is longer than 400." && (
+                {data?.message === "Sequence is longer than 400." && (
                   <>
                     <br />
                     <br />

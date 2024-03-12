@@ -23,6 +23,16 @@ describe('AminoAcidEditor', () => {
     expect(input).toHaveValue('A');
   });
 
+  // Test clearing input
+  test('clears input on user interaction', () => {
+    render(<AminoAcidEditor />);
+    const input = screen.getByTestId('amino-acid-editor-input');
+    fireEvent.change(input, { target: { value: 'A' } });
+    // Simulate user clearing the input
+    fireEvent.change(input, { target: { value: '' } });
+    expect(input).toHaveValue('');
+  });
+
   // Test rendering of child components
   test('renders AminoAcidTrack component', () => {
     render(<AminoAcidEditor />);
